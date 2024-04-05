@@ -1,6 +1,7 @@
 package vault
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/hashicorp/vault/api"
@@ -43,4 +44,15 @@ func GetValue(client *api.Client, secretPath string) map[string]interface{} {
 	}
 
 	return data
+}
+
+func WriteValue(client *api.Client, dstPath string, inputData map[string]interface{}) {
+
+	// Write the secret
+	output, err := client.Logical().Write(dstPath, inputData)
+	if err != nil {
+		log.Fatalf("failed to write secret: %v", err)
+	}
+	fmt.Println(output)
+
 }
