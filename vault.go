@@ -1,7 +1,6 @@
 package vault
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/hashicorp/vault/api"
@@ -26,10 +25,7 @@ func TokenVaultClient(vaultAddr string, vaultToken string) *api.Client {
 	return client
 }
 
-func GetValue(client *api.Client) {
-	// Define the secret's path
-	// Note: For KV v2, the path is usually prefixed with "secret/data/"
-	secretPath := "ick-test/data/ick-ips/config-service/workflow-service/dev1"
+func GetValue(client *api.Client, secretPath string) map[string]interface{} {
 
 	// Read the secret
 	secret, err := client.Logical().Read(secretPath)
@@ -46,11 +42,5 @@ func GetValue(client *api.Client) {
 		log.Fatalf("Data type assertion failed for secret: %s", secretPath)
 	}
 
-	// Assuming the secret has a key "password"
-	password, ok := data["KAFKA_ENABLED"].(string)
-	if !ok {
-		log.Fatalf("KAFKA_ENABLED not found in secret: %s", secretPath)
-	}
-
-	fmt.Printf("Retrieved KAFKA_ENABLED: %s\n", password)
+	return data
 }
