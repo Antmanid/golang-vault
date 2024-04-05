@@ -55,9 +55,9 @@ func WriteValue(client *api.Client, dstPath string, inputData map[string]interfa
 		"data": inputData, // For KV Version 2, you wrap the data within a "data" field
 	})
 	if err != nil {
-		log.Fatalf("Unable to write secret:%v %v %v", colorRed, err, colorReset)
+		log.Fatalf("%vUnable to write secret: %v %v", colorRed, err, colorReset)
 	}
 
-	fmt.Println("%v%v %v", colorPurple, output, colorReset)
+	fmt.Println(colorPurple, output, colorReset)
 
 }
