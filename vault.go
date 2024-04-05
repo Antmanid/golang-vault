@@ -7,10 +7,12 @@ import (
 	"github.com/hashicorp/vault/api"
 )
 
-// AddIntNum is to add two integer numbers
-func AddIntNum(num1, num2 int) int {
-	return num1 + num2
-}
+const (
+	colorReset  = "\033[0m"
+	colorRed    = "\033[31m"
+	colorGreen  = "\033[32m"
+	colorPurple = "\033[35m"
+)
 
 func TokenVaultClient(vaultAddr string, vaultToken string) *api.Client {
 
@@ -53,9 +55,9 @@ func WriteValue(client *api.Client, dstPath string, inputData map[string]interfa
 		"data": inputData, // For KV Version 2, you wrap the data within a "data" field
 	})
 	if err != nil {
-		log.Fatalf("Unable to write secret: %v", err)
+		log.Fatalf("Unable to write secret:%v %v %v", colorRed, err, colorReset)
 	}
 
-	fmt.Println(output)
+	fmt.Println("%v%v %v", colorPurple, output, colorReset)
 
 }
