@@ -48,11 +48,14 @@ func GetValue(client *api.Client, secretPath string) map[string]interface{} {
 
 func WriteValue(client *api.Client, dstPath string, inputData map[string]interface{}) {
 
-	// Write the secret
-	output, err := client.Logical().Write(dstPath, inputData)
+	// Writing the secret data to Vault
+	output, err := client.Logical().Write(dstPath, map[string]interface{}{
+		"data": inputData, // For KV Version 2, you wrap the data within a "data" field
+	})
 	if err != nil {
-		log.Fatalf("failed to write secret: %v", err)
+		log.Fatalf("Unable to write secret: %v", err)
 	}
+
 	fmt.Println(output)
 
 }
