@@ -11,7 +11,7 @@ func AddIntNum(num1, num2 int) int {
 	return num1 + num2
 }
 
-func tokenVaultClient(vaultAddr string, vaultToken string) *api.Client {
+func TokenVaultClient(vaultAddr string, vaultToken string) *api.Client {
 
 	// Initialize a Vault API client
 	config := api.DefaultConfig()
