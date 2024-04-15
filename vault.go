@@ -1,8 +1,10 @@
 package vault
 
 import (
+	"crypto/tls"
 	"fmt"
 	"log"
+	"net/http"
 
 	"github.com/hashicorp/vault/api"
 )
@@ -16,9 +18,17 @@ const (
 
 func TokenVaultClient(vaultAddr string, vaultToken string) *api.Client {
 
+	// Skip tls verifying
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+
+	httpClient := &http.Client{Transport: tr}
+
 	// Initialize a Vault API client
 	config := api.DefaultConfig()
 	config.Address = vaultAddr
+	config.HttpClient = httpClient
 	client, err := api.NewClient(config)
 	if err != nil {
 		log.Fatalf("failed to create Vault client: %v", err)
